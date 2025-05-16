@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_application_1/screen/bottom_tabbar/bottom_tabbar_screen.dart';
+import './screen/WalkThroughPage/walkthrough_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,9 +9,13 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: BottomNavigationBarExample());
+    return MaterialApp(
+      title: 'Tournament App',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true),
+      home: const WalkthroughScreen(),
+    );
   }
 }

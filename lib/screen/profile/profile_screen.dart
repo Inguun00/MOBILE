@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../TeamDetail/teamdetails_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -33,37 +34,40 @@ class ProfileScreen extends StatelessWidget {
                       border: Border.all(color: Colors.white, width: 4),
                     ),
                     child: const CircleAvatar(
-                      backgroundImage: AssetImage(
-                        'assets/images/profile.jpg',
-                      ), // шинэ зураг энд орж ирнэ
+                      backgroundImage: AssetImage('assets/images/profile.jpg'),
                     ),
                   ),
                 ),
               ),
             ],
           ),
-
           const SizedBox(height: 60),
-
-          // Name
           const Text(
             "Inguun",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
-
           const SizedBox(height: 30),
-
-          // Menu items
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ListView(
                 children: [
-                  _buildMenuItem(Icons.group, "Create team"),
-                  _buildMenuItem(Icons.settings, "Settings"),
-                  _buildMenuItem(Icons.emoji_events, "Rank"),
-                  _buildMenuItem(Icons.delete, "Delete account"),
-                  _buildMenuItem(Icons.logout, "Log Out"),
+                  _buildMenuItem(
+                    icon: Icons.group,
+                    title: "Team Info",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TeamDetailScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildMenuItem(icon: Icons.settings, title: "Settings"),
+                  _buildMenuItem(icon: Icons.emoji_events, title: "Rank"),
+                  _buildMenuItem(icon: Icons.delete, title: "Delete account"),
+                  _buildMenuItem(icon: Icons.logout, title: "Log Out"),
                 ],
               ),
             ),
@@ -73,14 +77,18 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  static Widget _buildMenuItem(IconData icon, String title) {
+  static Widget _buildMenuItem({
+    required IconData icon,
+    required String title,
+    VoidCallback? onTap,
+  }) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         leading: Icon(icon, color: Colors.deepPurple),
         title: Text(title),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: () {},
+        onTap: onTap,
       ),
     );
   }

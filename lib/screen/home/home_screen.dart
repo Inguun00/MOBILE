@@ -1,4 +1,9 @@
+// lib/screen/home/home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screen/notification/notification_screen.dart';
+import 'package:flutter_application_1/screen/tournament/tourInfo.dart';
+import 'package:flutter_application_1/screen/tournament/tourParticipant.dart';
+import 'package:flutter_application_1/screen/tournament/tourResult.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -43,44 +48,44 @@ class HomeScreen extends StatelessWidget {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        Text(
-                                          "Welcome back!",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(
-                                          "Inguun",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 22,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 20),
-                                    child: const Icon(
-                                      Icons.notifications_none,
-                                      color: Colors.white,
-                                      size: 24,
-                                    ),
-                                  ),
-                                ],
+                            children: const [
+                              Text(
+                                "Welcome back!",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "Inguun",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                ),
                               ),
                             ],
+                          ),
+                        ),
+                        // 👉 Notification icon with onTap
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => const NotificationScreen(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            child: const Icon(
+                              Icons.notifications_none,
+                              color: Colors.white,
+                              size: 24,
+                            ),
                           ),
                         ),
                       ],
@@ -90,8 +95,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-
-            // Tournament Card Section (Not started статус)
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
@@ -110,30 +113,16 @@ class HomeScreen extends StatelessWidget {
                     "PUBG MOBILE",
                     "Not started",
                     'assets/images/img_home.png',
-                  ),
-                  _buildTournamentCard(
-                    "VALORANT",
-                    "Ongoing",
-                    'assets/images/images.jpg',
-                  ),
-                  _buildTournamentCard(
-                    "CS2",
-                    "Ended",
-                    'assets/images/cs2.jpg',
+                    context,
                   ),
                 ],
               ),
             ),
-
-            // --- News Section ---
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 "News",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
             const SizedBox(height: 10),
@@ -149,18 +138,12 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
-
-            // --- Recommended Section (HorizontalCard) ---
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 "Match List",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ),
             const SizedBox(height: 10),
@@ -183,7 +166,6 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 20),
           ],
         ),
@@ -191,11 +173,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // --- Tournament Card Builder ---
   static Widget _buildTournamentCard(
     String title,
     String status,
     String imagePath,
+    BuildContext context,
   ) {
     Color statusColor;
     if (status == "Ended") {
@@ -206,69 +188,74 @@ class HomeScreen extends StatelessWidget {
       statusColor = Colors.orange;
     }
 
-    return Container(
-      width: 160,
-      margin: const EdgeInsets.only(right: 16),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              imagePath,
-              height: 160,
-              width: 160,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            top: 0,
-            left: 50,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: statusColor,
-                borderRadius: BorderRadius.circular(6),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const TabBarApp()),
+        );
+      },
+      child: Container(
+        width: 160,
+        margin: const EdgeInsets.only(right: 16),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                imagePath,
+                height: 160,
+                width: 160,
+                fit: BoxFit.cover,
               ),
+            ),
+            Positioned(
+              top: -5,
+              left: 40,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: statusColor,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  status,
+                  style: const TextStyle(color: Colors.white, fontSize: 10),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 8,
+              left: 8,
               child: Text(
-                status,
-                style: const TextStyle(color: Colors.white, fontSize: 10),
+                title,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 8,
-            left: 8,
-            child: Text(
-              title,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  // --- News Image Builder ---
   static Widget _buildNewsImage(String imagePath) {
     return Container(
       width: 240,
       margin: const EdgeInsets.only(right: 16),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.asset(
-          imagePath,
-          fit: BoxFit.cover,
-        ),
+        child: Image.asset(imagePath, fit: BoxFit.cover),
       ),
     );
   }
 }
 
-// --- HorizontalCard Widget ---
 class HorizontalCard extends StatelessWidget {
   final String imagePath;
   final String title;
@@ -289,12 +276,8 @@ class HorizontalCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-            offset: Offset(0, 2),
-          ),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 2)),
         ],
       ),
       child: Row(
@@ -323,20 +306,67 @@ class HorizontalCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 ),
               ],
             ),
           ),
-          const Icon(
-            Icons.arrow_forward_ios,
-            size: 17,
-            color: Colors.grey,
-          ),
+          const Icon(Icons.arrow_forward_ios, size: 17, color: Colors.grey),
         ],
+      ),
+    );
+  }
+}
+
+class TabBarApp extends StatelessWidget {
+  const TabBarApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: const TabBarExample(),
+    );
+  }
+}
+
+class TabBarExample extends StatelessWidget {
+  const TabBarExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: const [
+              Icon(Icons.arrow_back),
+              SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'PUBG MOBILE NATIONAL MASTERS-2025',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Information'),
+              Tab(text: 'Participant'),
+              Tab(text: 'Results'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            TournamentInfo(),
+            TournamentParticipant(),
+            TournamentResults(),
+          ],
+        ),
       ),
     );
   }

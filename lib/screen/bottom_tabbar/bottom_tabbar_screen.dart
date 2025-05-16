@@ -35,7 +35,6 @@ class _BottomNavigationBarExampleState
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         currentIndex: _selectedIndex,
-
         onTap: _onItemTapped,
       ),
     );
